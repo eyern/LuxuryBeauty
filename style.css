@@ -1,0 +1,970 @@
+:root {
+   --header-height: 4.5rem;
+   /* colors */
+   --hue: 159;
+   /* HSL color mode */
+   --base-color: hsl(var(--hue) 36% 57%);
+   --base-color-second: hsl(var(--hue) 65% 88%);
+   --base-color-alt: hsl(var(--hue) 57% 53%);
+   --title-color: hsl(var(--hue) 41% 10%);
+   --text-color: hsl(0 0% 46%);
+   --text-color-light: hsl(0 0% 98%);
+   --body-color: hsl(0 0% 98%);
+   /* fonts */
+   --title-font-size: 1.875rem;
+   --subtitle-font-size: 1rem;
+}
+
+/* GENERAL /////////////////////////////////////////////////////// */
+* {
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+}
+
+html {
+   /* para ficar suave os movimentos de rolagem automática do scroll, por exemplo, quando clicamos em um item do menu, a tela será direcionada levemente para o Início, Sobre Nós, Contato..., seja lá aonde clicarmos. */
+   scroll-behavior: smooth;
+}
+
+body {
+   font: 400 1rem "DM Sans", sans-serif;
+   color: var(--text-color);
+   background: var(--body-color);
+   /* pequeno efeito de leveza */
+   -webkit-font-smoothing: antialiased;
+}
+
+.title {
+   font: 700 var(--title-font-size) "Poppins", sans-serif;
+   color: var(--title-color);
+   -webkit-font-smoothing: auto;
+}
+
+main {
+   /* como colocamos o header como fixed, temos que dar um margin top no main da altura do header + o espaço entre eles que está no figma, através do calc() mostramos separadamente o pq do valor total de 6.5rem */
+   margin-top: calc(var(--header-height) + 2rem);
+}
+
+.section {
+   padding: 6rem 0;
+}
+
+section .subtitle {
+   font-size: var(--subtitle-font-size);
+}
+
+.container {
+   margin-left: 1.5rem;
+   margin-right: 1.5rem;
+}
+
+/* ATENÇÃO ATENÇÃO ATENÇÃO ATENÇÃO ATENÇÃO ATENÇÃO ATENÇÃO ATENÇÃO */
+.grid {
+   display: grid;
+   gap: 2rem;
+}
+
+/* INÚTIL INÚTIL INÚTIL INÚTIL INÚTIL INÚTIL INÚTIL INÚTIL INÚTIL */
+/* .container.grid {
+   display: grid;
+   gap: 2rem;
+} */
+
+.section header {
+   margin-bottom: 2rem;
+}
+
+section .title {
+   margin-top: 2rem;
+   margin-bottom: 1rem;
+}
+
+ul {
+   list-style: none;
+}
+
+a {
+   text-decoration: none;
+}
+
+.button {
+   background-color: var(--base-color);
+   color: var(--text-color-light);
+   /* por padrão, a tag  <a> é inline, dessa forma não dá para alterarmos a largura e altura, por isso colocamos inline-flex, pois assim dá para mexer tb na centralização do texto */
+   display: inline-flex;
+   height: 3.5rem;
+   padding: 1.06rem 2rem 1.12rem 2rem;
+   border-radius: 0.25rem;
+   align-items: center;
+   justify-content: center;
+   font: 500 1rem normal "DM Sans", sans-serif;
+   /* a velocidade que o background do hover abaixo irá aparecer quando o mouse passar por cima do botão */
+   transition: background 0.3s;
+}
+
+.button:hover {
+   background: var(--base-color-alt);
+}
+
+.divider-1 {
+   height: 1px;
+   background: linear-gradient(
+      270deg,
+      hsla(var(--hue), 36%, 57%, 1),
+      hsla(var(--hue), 65%, 88%, 0.34)
+   );
+}
+
+.divider-2 {
+   height: 1px;
+   background: linear-gradient(
+      270deg,
+      hsla(var(--hue), 65%, 88%, 0.34),
+      hsla(var(--hue), 36%, 57%, 1)
+   );
+   margin-bottom: -2rem;
+}
+
+.divider-3 {
+   height: 1px;
+   background: linear-gradient(
+      270deg,
+      hsla(var(--hue), 36%, 57%, 1),
+      hsla(var(--hue), 65%, 88%, 0.34)
+   );
+   margin-bottom: 0rem;
+}
+
+/* HEADER /////////////////////////////////////////////////////// */
+#header {
+   display: flex;
+   width: 100%;
+   position: fixed;
+   top: 0;
+   left: 0;
+   z-index: 100;
+   background-color: var(--body-color);
+   border-bottom: 1px solid #e4e4e4;
+   margin-bottom: 2rem;
+}
+
+#header.scroll {
+   box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* #header.scroll .logo {
+    color: #fff;
+}
+
+#header.scroll .icon-menu {
+    color: #fff;
+} */
+
+nav.container {
+   height: var(--header-height);
+   display: grid;
+   grid-auto-flow: column;
+   width: 100%;
+   justify-content: space-between;
+   align-items: center;
+}
+
+.logo {
+   font: 700 1.31rem "Poppins", sans-serif;
+   color: var(--base-color);
+}
+
+.span-logo {
+   color: var(--title-color);
+}
+
+/* menu */
+nav .menu {
+   opacity: 0;
+   visibility: hidden;
+   top: -20rem;
+   transition: 0.3s;
+}
+
+/* mostrar menu (só na versão mobile, quando clicar no menu ) */
+nav.show .menu {
+   /* transition: opacity 0.7s; */
+   opacity: 1;
+   visibility: visible;
+   background: var(--body-color);
+   height: 100vh;
+   width: 100vw;
+   position: fixed;
+   top: 0;
+   left: 0;
+   display: grid;
+   place-content: center;
+   transition: 0.3s;
+}
+
+nav .menu ul {
+   display: none;
+   visibility: hidden;
+}
+
+nav.show .menu ul {
+   display: grid;
+   visibility: visible;
+}
+
+nav.show ul.grid {
+   gap: 4rem;
+}
+
+.menu .grid li {
+   text-align: center;
+}
+
+nav ul li a {
+   position: relative;
+   transition: color 0.2s;
+}
+
+/* ativar a classe .after após toda tag <a> dentro da nav (para fazermos o efeito da barrinha abaixo de cada tag a) */
+nav ul li a::after {
+   content: "";
+   width: 0%;
+   transition: width 0.2s;
+   height: 0.125rem;
+   background: var(--base-color);
+   position: absolute;
+   bottom: -1.5rem;
+   left: 0;
+}
+
+nav.container ul.grid li a:hover,
+nav.container ul.grid a.active {
+   color: var(--base-color);
+}
+
+/* para quando tiver o hover na tag <a>, o after vai crescer o width para 100% */
+nav ul li a:hover::after,
+nav ul li a.active::after {
+   width: 100%;
+   font-weight: bold;
+}
+
+/* quando o .active for adicionado (pelo javascript) */
+nav .menu ul li a.title.active {
+   font-weight: bold;
+   -webkit-font-smoothing: auto;
+}
+
+/* toggle menu */
+.toggle {
+   color: var(--base-color);
+   font-size: 1.5rem;
+   cursor: pointer;
+}
+
+nav .icon-close {
+   visibility: hidden;
+   opacity: 0;
+   position: absolute;
+   /* efeito do .icon-close subindo ao clicar nele próprio, saindo da tela */
+   top: -1.5rem;
+   right: 1.5rem;
+   /* transição bacana */
+   transition: 0.3s;
+}
+
+nav.show div.icon-close {
+   visibility: visible;
+   opacity: 1;
+   /* efeito do .icon-close descendo ao clicar no menu */
+   top: 1.5rem;
+}
+
+/* HOME /////////////////////////////////////////////////////// */
+
+#home {
+   /* esconde o que estiver transbordando, passando pela barra de rolagem */
+   overflow: hidden;
+}
+
+#home .container {
+   margin: 0;
+}
+
+#home .image {
+   /* colocando como relative, os elementos filhos que estiverem como absoluto se comportarão de acordo com o seu elemento pai, ou seja, de acordo com .image */
+   position: relative;
+}
+
+/* create an ghost element before img element, or in first position inside .image element */
+#home .image::before {
+   content: "";
+   height: 100%;
+   width: 100%;
+   position: absolute;
+   left: 16.7%;
+   top: -16.8%;
+   background: var(--base-color-second);
+   z-index: 0;
+   border-radius: 0.25rem;
+}
+
+#home .image img {
+   width: 100%;
+   height: auto;
+   /* the relative position fixes the element wherever we want through the right, left, top and bottom properties. O relative aqui se comportará com relação ao elemento anterior (irmão), ou seja, o "ghost" que crimaos, o .image::before acima */
+   position: relative;
+   right: 2.93rem;
+   border-radius: 0.25rem;
+}
+
+#home .text {
+   margin-left: 1.5rem;
+   margin-right: 1.5rem;
+   text-align: center;
+}
+
+#home .text p {
+   margin-top: 1rem;
+   margin-bottom: 2rem;
+}
+
+/* ABOUT /////////////////////////////////////////////////////// */
+#about {
+   background-color: #fff;
+}
+
+#about .container {
+   margin: 0rem;
+}
+
+#about .image {
+   /* colocando como relative, os elementos filhos que estiverem como absoluto se comportarão de acordo com o seu elemento pai, ou seja, de acordo com .image */
+   position: relative;
+}
+
+/* create an ghost element before img element, or in first position inside .image element */
+#about .image::before {
+   content: "";
+   height: 100%;
+   width: 100%;
+   position: absolute;
+   left: -33.04%;
+   top: -8.03%;
+   background: var(--base-color-second);
+   z-index: 0;
+   border-radius: 0.25rem;
+}
+
+#about .image img {
+   width: 100%;
+   height: auto;
+   /* the relative position fixes the element wherever we want through the right, left, top and bottom properties. O relative aqui se comportará com relação ao elemento anterior (irmão), ou seja, o "ghost" que crimaos, o .image::before acima */
+   position: relative;
+   border-radius: 0.25rem;
+}
+
+#about .text {
+   margin-left: 1.5rem;
+   margin-right: 1.5rem;
+}
+
+#about .text p {
+   margin-top: 1.2rem;
+   margin-bottom: 0rem;
+   max-width: 100%;
+   line-height: 1.62rem;
+}
+
+/* SERVICES /////////////////////////////////////////////////////// */
+#services .text p {
+   margin-top: 1.2rem;
+   margin-bottom: 0rem;
+   max-width: 100%;
+   line-height: 1.62rem;
+}
+
+#services .text p strong {
+   color: var(--base-color);
+}
+
+.cards.grid {
+   display: grid;
+   gap: 2rem;
+}
+
+.card {
+   padding: 3.62rem 2rem;
+   box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.08);
+   border-bottom: 0.25rem solid var(--base-color);
+   border-radius: 0.25rem 0.25rem 0 0;
+   text-align: center;
+}
+
+.card i {
+   display: block;
+   margin-bottom: -2rem;
+   color: var(--base-color);
+   font-size: 5rem;
+}
+
+.card .title {
+   font-size: 1.5rem;
+   margin-bottom: 0.75rem;
+}
+
+/* TESTIMONIALS /////////////////////////////////////////////////////// */
+#testimonials {
+   background-color: #fff;
+}
+
+.testimonials {
+   margin: 0;
+}
+
+.testimonial {
+   padding: 0.1rem;
+}
+
+.testimonial cite {
+   display: flex;
+   justify-content: flex-start;
+   align-items: center;
+   padding: 1.5rem 8.75rem 2rem 0rem;
+}
+
+.testimonial p {
+   color: var(--title-color);
+   padding: 2rem 2rem 0 2rem;
+   line-height: 1.75rem;
+   box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.08);
+   border-radius: 0.25rem;
+}
+
+.aspas {
+   font: 700 3rem serif;
+   color: var(--base-color);
+}
+
+.textTestimonial {
+   position: relative;
+   top: -0.95rem;
+   margin-left: 0.2rem;
+}
+
+.testimonial img {
+   width: 3rem;
+   height: 3rem;
+   /* para garantir o preenchimento da imagem no espaço da tag img */
+   object-fit: cover;
+   /* para deixar a imagem em formato de círculo, mas não utilizei pois eu editei a imagem antes no gimp*/
+   /* clip-path: circle(); */
+   margin-right: 0.5rem;
+   border-radius: 5rem;
+}
+
+.testimonial cite .name {
+   font-style: normal;
+   color: var(--text-color);
+   font-size: 1rem;
+   line-height: 1.25rem;
+}
+
+img[alt] {
+   font-size: 0.6rem;
+}
+
+/* Swiper */
+.swiper-pagination {
+   position: relative;
+   margin-top: 2rem;
+}
+
+.swiper-pagination-bullet {
+   background: var(--base-color);
+   width: 0.75rem;
+   height: 0.75rem;
+}
+
+/* CONTACT /////////////////////////////////////////////////////// */
+#contact .grid {
+   gap: 4rem;
+}
+
+#contact .grid p {
+   margin-bottom: 2rem;
+}
+
+#contact i {
+   font-size: 1.5rem;
+   margin-right: 0.6rem;
+}
+
+#contact .container ul.grid {
+   gap: 2rem;
+}
+
+#contact li {
+   display: flex;
+   align-items: center;
+}
+
+#contact .links li i {
+   margin-right: 0.625rem;
+   color: var(--base-color);
+}
+
+/* FOOTER /////////////////////////////////////////////////////////// */
+#footer {
+   background-color: var(--base-color);
+   padding: 4rem 0;
+}
+
+.footer-text {
+   margin-bottom: 0.75rem;
+}
+
+.footer-text .logo {
+   display: inline-block;
+   margin-bottom: 1.5rem;
+}
+
+#footer a {
+   color: var(--body-color);
+}
+
+#footer .text.grid {
+   gap: 0.75rem;
+}
+
+#footer .text.grid p {
+   color: var(--body-color);
+}
+
+.footer-social-media {
+   color: var(--body-color);
+}
+
+.footer-social-media i {
+   font-size: 1.5rem;
+   margin-right: 2rem;
+   /* inline-block para a tag <a> poder fazer o transform pedido no :hover do elemento*/
+   display: inline-block;
+   transition: 0.3s;
+}
+
+.footer-social-media i:hover {
+    transform: translateY(-0.93rem);
+}
+
+/* Back to top /////////////////////////////////////////////////// */
+.back-to-top {
+   position: fixed;
+   bottom: 1rem;
+   right: 1rem;
+   background-color: var(--base-color);
+   clip-path: circle();
+   color: var(--body-color);
+   padding: 0.5rem;
+   font-size: 1.5rem;
+   line-height: 0;
+   visibility: hidden;
+   opacity: 0;
+   /* efeito vindo de baixo */
+   transform: translateY(100%);
+   transition: 0.3s;
+}
+
+.back-to-top.show {
+    transform: translateY(0);
+    visibility: visible;
+    opacity: 1;
+}
+
+
+/* MEDIA QUERIES ////////////////////////////////////////////////*/
+
+/* medium devices: 660 >  */
+@media(min-width: 660px) { 
+   /* services */
+   #services .text .title,
+   #services .text .subtitle {
+      text-align: center;
+   }
+}
+
+/* large devices: 900 >  */
+@media(min-width: 900px) {
+   /* Reusable classes */
+   section {
+      padding: 10rem 0;
+   }
+ 
+   .button {
+      height: 3.125rem;
+   }
+ 
+   /* Layout */
+   main {
+      margin-top: calc(var(--header-height) + 1.3rem);
+   }
+
+   :root {
+      --title-font-size: 2.25rem;
+   }
+
+   /* bigger subtitles */
+   #home .subtitle, 
+   #services .subtitle,
+   #contact .subtitle {
+      font-size: 1.125rem;
+   }
+
+    /* About */
+  #about .text {
+   max-width: 800px;
+}
+
+   /* Services */
+   #services .container {
+      justify-content: center;
+   }
+
+   #services .text .title,
+   #services .text .subtitle {
+      text-align: center;
+   }
+
+   .cards.grid {
+      max-width: 700px;
+   }
+
+   /* Testimonials */
+   #testimonials .container {
+      justify-content: center;
+      margin-left: 8rem;
+      margin-right: 8rem;
+      padding: 0 2rem;
+   }
+
+   #testimonials header h2 {
+      text-align: center;
+   }
+
+   /* contact */
+   #contact .container.grid {
+      margin-right: 1.5rem;
+      margin-left: 1.5rem;
+      padding: 0 2rem;
+   }
+
+   /* Footer */
+   footer .container.grid {
+      grid-auto-flow: column;
+      justify-content: space-between;
+      align-items: center;
+      margin-right: 1.5rem;
+      margin-left: 1.5rem;
+      padding: 0 2rem;
+   }
+   
+}
+
+
+
+
+/* large devices: 1023 >  */
+@media(min-width: 1023px) {
+   /* Reusable classes */
+  section {
+     padding: 10rem 0;
+  }
+
+  .button {
+     height: 3.125rem;
+  }
+
+  /* Layout */
+  main {
+     margin-top: calc(var(--header-height) + 1.3rem);
+  }
+
+  /* Menu */
+  #header .container {
+     max-width: 1023px;
+     margin-left: auto;
+     margin-right: auto;
+  }
+
+  nav .logo {
+     margin-left: 2rem;
+  }
+
+  nav .menu {
+     opacity: 1;
+     visibility: visible;
+     margin-right: 2rem;
+  }
+
+  nav .menu ul {
+     display: flex;
+     visibility: visible;
+     gap: 2rem;
+  }
+
+  nav .menu ul li a.title {
+     font: 400 1rem "DM Sans", normal;
+     line-height: 1.301rem;
+     -webkit-font-smoothing: antialiased;
+  }
+
+  .icon-menu {
+     display: none;
+  }   
+
+  /* About */
+  #about .text {
+     max-width: 800px;
+  }
+
+  /* Services */
+   #services .container {
+     justify-content: center;
+  }
+
+   #services .text .title,
+   #services .text .subtitle {
+      text-align: center;
+   }
+
+
+   .cards.grid {
+      max-width: 800px;
+   }
+
+   /* Testimonials */
+   #testimonials .container {
+      justify-content: center;
+      margin-left: 4rem;
+      margin-right: 4rem;
+      padding: 0 2rem;
+   }
+
+   #testimonials header h2 {
+      text-align: center;
+   }
+
+   /* Contact */
+   #contact .container.grid {
+      justify-content: space-between;
+      align-items: center;
+      margin-right: 1.5rem;
+      margin-left: 1.5rem;
+      padding: 0 2rem;
+   }
+   
+   /* Footer */
+   footer .container.grid {
+      grid-auto-flow: column;
+      justify-content: space-between;
+      align-items: center;
+      margin-right: 1.5rem;
+      margin-left: 1.5rem;
+      padding: 0 2rem;
+   }
+}
+
+
+
+
+/* extra large devices: 1280 >  */
+@media(min-width: 1280px) {
+   /* Reusable classes */
+   section {
+      padding: 10rem 0;
+   }
+
+   .button {
+      height: 3.125rem;
+   }
+
+   /* Layout */
+   main {
+      margin-top: calc(var(--header-height) + 1.3rem);
+   }
+
+   /* Menu */
+   #header .container {
+      max-width: 1220px;
+      margin-left: auto;
+      margin-right: auto;
+   }
+
+   nav .logo {
+      margin-left: 2rem;
+   }
+
+   nav .menu {
+      opacity: 1;
+      visibility: visible;
+      margin-right: 2rem;
+   }
+
+   nav .menu ul {
+      display: flex;
+      visibility: visible;
+      gap: 2rem;
+   }
+
+   nav .menu ul li a.title {
+      font: 400 1rem "DM Sans", normal;
+      line-height: 1.301rem;
+      -webkit-font-smoothing: antialiased;
+   }
+
+   .icon-menu {
+      display: none;
+   }
+      
+   /* Home */
+   #home {
+      display: grid;
+      justify-content: center;
+      align-items: center;
+   }
+
+   #home .container {
+      grid-auto-flow: column;
+      max-width: 1220px;
+      justify-content: space-between;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 1.5rem;
+   }
+
+   #home .text {
+      order: 0;
+      text-align: left;
+      padding-right: 6rem;
+      padding-left: 0.7rem;
+   }
+
+   #home .image {
+      order: 1;
+      display: grid;
+      justify-content:flex-end;
+   }
+
+   #home .image::before {
+      width: 40.68rem;
+      height: 29.32rem;
+      top: -15%;
+   }
+
+   #home .image img {
+      width: 40.68rem;
+      height: 29.32rem;
+      left: 0.93rem;
+   }
+
+   /* About */
+   #about {
+      display: grid;
+      align-items: center;
+   }
+
+   #about .container {
+      grid-auto-flow: column;
+      max-width: 1519px;
+   }
+
+   #about .image {
+      display: grid;
+   }
+
+   #about .image img {
+      width: 40.68rem;
+      height: 29.32rem;
+   }
+
+   #about .text {
+      margin-top: 0;
+   }
+
+   /* Services */
+   #services .container {
+      align-items: center;
+      margin-left: 8rem;
+      margin-right: 8rem;
+      padding: 0 2rem;
+   }
+
+   #services .text .title,
+   #services .text .subtitle {
+      text-align: center;
+   }
+
+   .cards.grid {
+      max-width: 100%;
+   }
+
+   #services .cards {
+      grid-template-columns: repeat(3, 1fr);
+   } 
+
+   /* Testimonials */
+   #testimonials .container {
+      justify-content: center;
+      margin-left: 8rem;
+      margin-right: 8rem;
+      padding: 0 2rem;
+   }
+
+   #testimonials header {
+      display: grid;
+      justify-content: center;
+   }
+
+   #testimonials header h2 {
+      text-align: center;
+      width: 30rem;
+   }
+
+   /* Contact */
+   #contact .container.grid {
+      grid-auto-flow: column;
+      align-items: center;
+      justify-content: space-between;
+      margin-left: 8rem;
+      margin-right: 8rem;
+      padding: 0 2rem;
+   }
+
+   #contact .text {
+      max-width: 25.25rem;
+   }
+
+   #contact .text p {
+      max-width: 22.75rem;
+   }
+
+   #contact .links {
+      max-width: 16.37rem;
+   }
+
+   /* Footer */
+   footer .container.grid {
+      grid-auto-flow: column;
+      justify-content: space-between;
+      align-items: center;
+      margin-right: 8rem;
+      margin-left: 8rem;
+      padding: 0 2rem;
+   }
+
+   .footer-text a {
+      font-size: 1.8rem;
+   }
+}
+
